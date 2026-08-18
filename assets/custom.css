@@ -1,0 +1,92 @@
+/* ==========================================================================
+   JENNY & CO — custom.css
+
+   Loaded AFTER base.css. This is the override and refinement layer.
+
+   WHAT BELONGS HERE
+   - Adjustments to Shopify-generated markup we don't control
+   - One-off page tweaks that don't justify their own section styles
+   - Temporary fixes, clearly marked, with a note on what they're waiting on
+
+   WHAT DOES NOT BELONG HERE
+   - Brand tokens or palette values          -> assets/base.css
+   - Font loading                            -> assets/base.css
+   - Styles for a specific section           -> keep with that section
+   - Anything that could live in base.css    -> put it in base.css
+
+   RULES
+   - Always use the --jc-* tokens. Never hard-code a hex value.
+   - Never apply --jc-font-display to anything dynamic. See the note in
+     base.css: the font has 94 glyphs and no £ character.
+   - Prefer overriding a custom property over adding specificity.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Shopify-generated markup
+   Shopify injects markup we can't edit (form errors, challenge page,
+   predictive search). Bring it in line with the brand here.
+   -------------------------------------------------------------------------- */
+
+.errors,
+.form__message {
+  margin-block: var(--jc-space-sm);
+  padding: var(--jc-space-sm);
+  border-left: 3px solid var(--jc-accent-loud);
+  background-color: rgba(215, 163, 168, 0.18);
+  font-size: 0.9375rem;
+}
+
+.errors ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  list-style: disc;
+}
+
+.shopify-challenge__container {
+  max-width: 620px;
+  margin-inline: auto;
+  padding-block: var(--jc-space-xl);
+  padding-inline: var(--jc-gutter);
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   2. Rich text (product descriptions, page content)
+   Jenny writes these in Admin, so the markup is unpredictable.
+   -------------------------------------------------------------------------- */
+
+.rte > :first-child {
+  margin-top: 0;
+}
+
+.rte > :last-child {
+  margin-bottom: 0;
+}
+
+.rte img {
+  margin-block: var(--jc-space-md);
+}
+
+.rte ul,
+.rte ol {
+  margin-block: var(--jc-space-sm);
+  padding-left: 1.25rem;
+}
+
+.rte li {
+  margin-bottom: 0.35rem;
+}
+
+.rte blockquote {
+  margin: var(--jc-space-md) 0;
+  padding-left: var(--jc-space-md);
+  border-left: 2px solid var(--jc-accent);
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+   3. Overrides
+   Add below, newest last. Note WHY, not just what.
+   -------------------------------------------------------------------------- */
+
+/* (nothing yet) */
