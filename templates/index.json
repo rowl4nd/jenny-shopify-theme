@@ -47,4 +47,65 @@
           "settings": {
             "collection": "bestsellers",
             "heading": "",
-            "caption": "The ones people keep coming
+            "caption": "The ones people keep coming back for"
+          }
+        }
+      },
+      "block_order": [
+        "panel_cYfaBr",
+        "panel_NKcKaj",
+        "panel_bUiDHY"
+      ],
+      "settings": {
+        "heading": ""
+      }
+    },
+    "look_closely": {
+      "type": "look-closely",
+      "blocks": {
+        "detail_pen": {
+          "type": "detail",
+          "settings": {
+            "label": "Pen"
+          }
+        },
+        "detail_watercolour": {
+          "type": "detail",
+          "settings": {
+            "label": "Watercolour"
+          }
+        },
+        "detail_fabric": {
+          "type": "detail",
+          "settings": {
+            "label": "Liberty fabric"
+          }
+        },
+        "detail_stitching": {
+          "type": "detail",
+          "settings": {
+            "label": "Stitching"
+          }
+        }
+      },
+      "block_order": [
+        "detail_pen",
+        "detail_watercolour",
+        "detail_fabric",
+        "detail_stitching"
+      ],
+      "settings": {
+        "heading": "Look closely...",
+        "standfirst": "There's more going on than you think.",
+        "body": "<p>My work starts with pen and paint. Then I add tiny pieces of Liberty fabric before finishing each piece with free-machine stitching.</p><p>Familiar places, animals and everyday things — usually with a little bit of fun thrown in.</p>",
+        "link_label": "More about Jenny",
+        "link_url": ""
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "panels",
+    "look_closely"
+  ]
+}
