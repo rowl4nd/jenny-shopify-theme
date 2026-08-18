@@ -2,10 +2,6 @@
   "type": "header",
   "name": "Header",
   "sections": {
-    "announcement": {
-      "type": "announcement-bar",
-      "settings": {}
-    },
     "header": {
       "type": "header",
       "settings": {
@@ -13,5 +9,5 @@
       }
     }
   },
-  "order": ["announcement", "header"]
+  "order": ["header"]
 }
