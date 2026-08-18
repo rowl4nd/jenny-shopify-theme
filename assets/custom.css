@@ -90,3 +90,95 @@
    -------------------------------------------------------------------------- */
 
 /* (nothing yet) */
+
+/* --------------------------------------------------------------------------
+   4. Product card
+   Rendered by snippets/product-card.liquid, used across featured products,
+   collections, search and related products — so the styles live here rather
+   than in any one section.
+   -------------------------------------------------------------------------- */
+
+.jc-card__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.jc-card__media {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(215, 163, 168, 0.25);
+}
+
+.jc-card__image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  transition: transform 600ms ease;
+}
+
+.jc-card__image--empty {
+  display: block;
+}
+
+.jc-card__link:hover .jc-card__image {
+  transform: scale(1.03);
+}
+
+.jc-card__badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  background-color: var(--jc-cream);
+  color: var(--jc-green);
+  font-size: 0.625rem;
+  letter-spacing: var(--jc-tracking-wide);
+  text-transform: uppercase;
+}
+
+.jc-card__badge--sold {
+  background-color: var(--jc-green);
+  color: var(--jc-cream);
+}
+
+.jc-card__text {
+  padding-top: 0.75rem;
+}
+
+.jc-card__title {
+  margin: 0 0 0.15rem;
+  font-family: var(--jc-font-heading);
+  font-size: 1.0625rem;
+  line-height: 1.3;
+  color: var(--jc-green);
+}
+
+.jc-card__price {
+  margin: 0;
+  max-width: none;
+  font-size: 0.9375rem;
+  color: var(--jc-charcoal);
+}
+
+.jc-card__unavailable {
+  opacity: 0.6;
+}
+
+.jc-card__note {
+  margin: 0.25rem 0 0;
+  max-width: none;
+  font-size: 0.8125rem;
+  font-style: italic;
+  color: var(--jc-accent-loud);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jc-card__image {
+    transition: none;
+  }
+
+  .jc-card__link:hover .jc-card__image {
+    transform: none;
+  }
+}
