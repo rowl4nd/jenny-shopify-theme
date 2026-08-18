@@ -45,7 +45,7 @@
       Uncomment each of these as the matching section group file is added:
       sections/header-group.json  and  sections/footer-group.json
     {%- endcomment -%}
-    {%- comment -%} {% sections 'header-group' %} {%- endcomment -%}
+    {% sections 'header-group' %}
 
     <main id="main-content" role="main">
       {{ content_for_layout }}
