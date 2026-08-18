@@ -1,0 +1,242 @@
+<div class="jc-closely jc-section">
+  <div class="jc-page">
+
+    <div class="jc-closely__intro">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="jc-closely__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.standfirst != blank -%}
+        <p class="jc-closely__standfirst">{{ section.settings.standfirst }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.body != blank -%}
+        <div class="jc-closely__body rte">{{ section.settings.body }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.link_label != blank -%}
+        <a href="{{ section.settings.link_url | default: routes.root_url }}" class="jc-closely__link">
+          {{ section.settings.link_label }}
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="jc-closely__details">
+        {%- for block in section.blocks -%}
+          <li class="jc-closely__detail" {{ block.shopify_attributes }}>
+            <div class="jc-closely__media">
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 900
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '(min-width: 750px) 25vw, 45vw',
+                    widths: '300, 450, 600, 900',
+                    class: 'jc-closely__image',
+                    alt: block.settings.label | default: ''
+                }}
+              {%- else -%}
+                <div class="jc-closely__image jc-closely__image--empty"></div>
+              {%- endif -%}
+            </div>
+
+            {%- if block.settings.label != blank -%}
+              <p class="jc-closely__label">{{ block.settings.label }}</p>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .jc-closely {
+    background-color: var(--jc-green);
+    color: var(--jc-cream);
+  }
+
+  .jc-closely__intro {
+    max-width: 44rem;
+  }
+
+  .jc-closely__heading {
+    margin: 0;
+    color: var(--jc-cream);
+    font-family: var(--jc-font-display);
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    line-height: 1.05;
+  }
+
+  .jc-closely__standfirst {
+    margin: 0.25em 0 var(--jc-space-md);
+    max-width: 30ch;
+    color: var(--jc-pink);
+    font-family: var(--jc-font-heading);
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-style: italic;
+    line-height: 1.25;
+  }
+
+  .jc-closely__body p {
+    max-width: 46ch;
+    color: var(--jc-cream);
+    opacity: 0.88;
+  }
+
+  .jc-closely__link {
+    display: inline-block;
+    margin-top: var(--jc-space-sm);
+    color: var(--jc-pink);
+    font-size: 0.8125rem;
+    letter-spacing: var(--jc-tracking-wide);
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(215, 163, 168, 0.5);
+    padding-bottom: 2px;
+  }
+
+  .jc-closely__link:hover {
+    color: var(--jc-pink);
+    border-bottom-color: var(--jc-pink);
+  }
+
+  .jc-closely__details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--jc-space-sm);
+    margin-top: var(--jc-space-lg);
+    list-style: none;
+  }
+
+  .jc-closely__media {
+    overflow: hidden;
+  }
+
+  .jc-closely__image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .jc-closely__image--empty {
+    display: block;
+    background-color: rgba(247, 241, 232, 0.12);
+  }
+
+  .jc-closely__label {
+    margin: 0.6rem 0 0;
+    max-width: none;
+    font-size: 0.75rem;
+    letter-spacing: var(--jc-tracking-wide);
+    text-transform: uppercase;
+    color: var(--jc-pink);
+  }
+
+  @media (min-width: 750px) {
+    .jc-closely__details {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--jc-space-md);
+    }
+
+    /* Stagger the detail images so they sit like pinned samples
+       rather than a tidy row. */
+    .jc-closely__detail:nth-child(even) {
+      margin-top: var(--jc-space-lg);
+    }
+  }
+
+  /* Scroll-driven reveal. Progressive enhancement: browsers without
+     animation-timeline simply show the images. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      @keyframes jc-closely-reveal {
+        from {
+          opacity: 0;
+          transform: translateY(2.5rem);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .jc-closely__detail {
+        animation: jc-closely-reveal linear both;
+        animation-timeline: view();
+        animation-range: entry 10% cover 32%;
+      }
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Look closely",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Look closely..."
+    },
+    {
+      "type": "text",
+      "id": "standfirst",
+      "label": "Standfirst",
+      "default": "There's more going on than you think."
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Text",
+      "default": "<p>My work starts with pen and paint. Then I add tiny pieces of Liberty fabric before finishing each piece with free-machine stitching.</p><p>Familiar places, animals and everyday things — usually with a little bit of fun thrown in.</p>"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "More about Jenny"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "detail",
+      "name": "Detail image",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Close-up. Square crops work best."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Look closely",
+      "blocks": [
+        { "type": "detail", "settings": { "label": "Pen" } },
+        { "type": "detail", "settings": { "label": "Watercolour" } },
+        { "type": "detail", "settings": { "label": "Liberty fabric" } },
+        { "type": "detail", "settings": { "label": "Stitching" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
