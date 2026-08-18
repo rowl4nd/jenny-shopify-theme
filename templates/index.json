@@ -31,7 +31,7 @@
           "settings": {
             "collection": "pet-portraits",
             "heading": "",
-            "caption": ""
+            "caption": "Something made especially for you"
           }
         },
         "panel_cYfaBr": {
@@ -39,7 +39,7 @@
           "settings": {
             "collection": "new-in",
             "heading": "",
-            "caption": ""
+            "caption": "Latest originals & prints"
           }
         },
         "panel_NKcKaj": {
@@ -47,7 +47,7 @@
           "settings": {
             "collection": "bestsellers",
             "heading": "",
-            "caption": ""
+            "caption": "The ones people keep coming back for"
           }
         }
       },
