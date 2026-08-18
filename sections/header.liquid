@@ -150,12 +150,13 @@
   }
 
   .jc-header__wordmark {
-    font-family: var(--jc-font-heading);
-    font-size: 1.5rem;
-    letter-spacing: var(--jc-tracking-wide);
-    text-transform: uppercase;
+    display: inline-block;
+    font-family: var(--jc-font-display);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    line-height: 1.1;
     color: var(--jc-green);
-    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
   }
 
   .jc-header__nav {
