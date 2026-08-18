@@ -1,0 +1,348 @@
+<footer class="jc-footer">
+  <div class="jc-page">
+
+    <div class="jc-footer__top">
+
+      <div class="jc-footer__brand">
+        <p class="jc-footer__wordmark" aria-hidden="true">Jenny &amp; Co</p>
+        <p class="visually-hidden">Jenny and Co</p>
+
+        {%- if section.settings.blurb != blank -%}
+          <p class="jc-footer__blurb">{{ section.settings.blurb }}</p>
+        {%- endif -%}
+
+        {%- if settings.studio_address != blank -%}
+          <p class="jc-footer__studio">{{ settings.studio_address }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="jc-footer__menus">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'menu' -%}
+            {%- assign menu = linklists[block.settings.menu] -%}
+            {%- if menu.links.size > 0 -%}
+              <div class="jc-footer__menu" {{ block.shopify_attributes }}>
+                {%- if block.settings.heading != blank -%}
+                  <h2 class="jc-footer__heading jc-label">{{ block.settings.heading }}</h2>
+                {%- endif -%}
+                <ul class="jc-footer__list">
+                  {%- for link in menu.links -%}
+                    <li><a href="{{ link.url }}" class="jc-footer__link">{{ link.title }}</a></li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if section.settings.show_newsletter -%}
+        <div class="jc-footer__newsletter">
+          <h2 class="jc-footer__newsletter-heading">
+            {{ 'general.newsletter.heading' | t }}
+          </h2>
+          <p class="jc-footer__newsletter-body">
+            {{ 'general.newsletter.body' | t }}
+          </p>
+
+          {%- form 'customer', class: 'jc-newsletter-form' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+
+            {%- if form.posted_successfully? -%}
+              <p class="jc-newsletter-form__success">
+                {{ 'general.newsletter.success' | t }}
+              </p>
+            {%- else -%}
+              <label for="NewsletterEmail" class="visually-hidden">
+                {{ 'general.newsletter.label' | t }}
+              </label>
+
+              <div class="jc-newsletter-form__row">
+                <input
+                  id="NewsletterEmail"
+                  type="email"
+                  name="contact[email]"
+                  placeholder="{{ 'general.newsletter.label' | t }}"
+                  autocomplete="email"
+                  required>
+                <button type="submit" class="jc-newsletter-form__submit">
+                  {{ 'general.newsletter.submit' | t }}
+                </button>
+              </div>
+
+              {%- if form.errors -%}
+                <p class="jc-newsletter-form__error">
+                  {{ form.errors.messages.email }}
+                </p>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endform -%}
+
+          {%- if settings.social_instagram_link != blank or settings.social_facebook_link != blank -%}
+            <ul class="jc-footer__social">
+              {%- if settings.social_instagram_link != blank -%}
+                <li><a href="{{ settings.social_instagram_link }}" class="jc-footer__link">{{ 'general.social.instagram' | t }}</a></li>
+              {%- endif -%}
+              {%- if settings.social_facebook_link != blank -%}
+                <li><a href="{{ settings.social_facebook_link }}" class="jc-footer__link">{{ 'general.social.facebook' | t }}</a></li>
+              {%- endif -%}
+            </ul>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="jc-footer__bottom">
+      <p class="jc-footer__copyright">
+        &copy; {{ 'now' | date: '%Y' }} Jenny &amp; Co
+      </p>
+      {%- if section.settings.payment_icons and shop.enabled_payment_types.size > 0 -%}
+        <ul class="jc-footer__payment">
+          {%- for type in shop.enabled_payment_types -%}
+            <li>{{ type | payment_type_svg_tag: class: 'jc-footer__payment-icon' }}</li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{% stylesheet %}
+  .jc-footer {
+    background-color: var(--jc-green);
+    color: var(--jc-cream);
+    padding-block: var(--jc-space-lg) var(--jc-space-md);
+    margin-top: var(--jc-space-xl);
+  }
+
+  .jc-footer__top {
+    display: grid;
+    gap: var(--jc-space-lg);
+  }
+
+  .jc-footer__wordmark {
+    margin: 0 0 var(--jc-space-sm);
+    max-width: none;
+    font-family: var(--jc-font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.1;
+    color: var(--jc-cream);
+  }
+
+  .jc-footer__blurb,
+  .jc-footer__studio {
+    margin: 0 0 var(--jc-space-xs);
+    max-width: 34ch;
+    font-size: 0.9375rem;
+    opacity: 0.85;
+  }
+
+  .jc-footer__menus {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--jc-space-md);
+  }
+
+  .jc-footer__heading {
+    margin: 0 0 var(--jc-space-sm);
+    color: var(--jc-pink);
+    font-weight: 400;
+  }
+
+  .jc-footer__list {
+    list-style: none;
+  }
+
+  .jc-footer__list li {
+    margin-bottom: 0.4rem;
+  }
+
+  .jc-footer__link {
+    color: var(--jc-cream);
+    font-size: 0.9375rem;
+    text-decoration: none;
+    opacity: 0.85;
+    transition: opacity var(--jc-transition), color var(--jc-transition);
+  }
+
+  .jc-footer__link:hover {
+    opacity: 1;
+    color: var(--jc-pink);
+  }
+
+  .jc-footer__newsletter-heading {
+    margin: 0 0 var(--jc-space-xs);
+    color: var(--jc-cream);
+    font-family: var(--jc-font-heading);
+    font-size: 1.375rem;
+  }
+
+  .jc-footer__newsletter-body {
+    margin: 0 0 var(--jc-space-sm);
+    max-width: 38ch;
+    font-size: 0.9375rem;
+    opacity: 0.85;
+  }
+
+  .jc-newsletter-form__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .jc-newsletter-form__row input {
+    flex: 1 1 200px;
+    min-width: 0;
+    padding: 0.75rem 0.9rem;
+    background-color: transparent;
+    border: 1px solid rgba(247, 241, 232, 0.4);
+    border-radius: var(--jc-radius);
+    color: var(--jc-cream);
+    font-size: 0.9375rem;
+  }
+
+  .jc-newsletter-form__row input::placeholder {
+    color: rgba(247, 241, 232, 0.6);
+  }
+
+  .jc-newsletter-form__row input:focus {
+    outline: none;
+    border-color: var(--jc-pink);
+  }
+
+  .jc-newsletter-form__submit {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--jc-pink);
+    color: var(--jc-green);
+    border: 1px solid var(--jc-pink);
+    border-radius: var(--jc-radius);
+    font-size: 0.75rem;
+    letter-spacing: var(--jc-tracking-wide);
+    text-transform: uppercase;
+    transition: background-color var(--jc-transition), color var(--jc-transition);
+  }
+
+  .jc-newsletter-form__submit:hover {
+    background-color: transparent;
+    color: var(--jc-pink);
+  }
+
+  .jc-newsletter-form__success,
+  .jc-newsletter-form__error {
+    margin: var(--jc-space-xs) 0 0;
+    font-size: 0.875rem;
+  }
+
+  .jc-newsletter-form__error {
+    color: var(--jc-pink);
+  }
+
+  .jc-footer__social {
+    display: flex;
+    gap: var(--jc-space-sm);
+    margin-top: var(--jc-space-md);
+    list-style: none;
+  }
+
+  .jc-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--jc-space-sm);
+    margin-top: var(--jc-space-lg);
+    padding-top: var(--jc-space-md);
+    border-top: 1px solid rgba(247, 241, 232, 0.2);
+  }
+
+  .jc-footer__copyright {
+    margin: 0;
+    max-width: none;
+    font-size: 0.8125rem;
+    opacity: 0.7;
+  }
+
+  .jc-footer__payment {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+  }
+
+  .jc-footer__payment-icon {
+    width: 38px;
+    height: auto;
+  }
+
+  @media (min-width: 750px) {
+    .jc-footer__top {
+      grid-template-columns: 1fr 1.4fr;
+      column-gap: var(--jc-space-md);
+    }
+
+    .jc-footer__newsletter {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (min-width: 990px) {
+    .jc-footer__top {
+      grid-template-columns: 1fr 1.6fr 1.2fr;
+    }
+
+    .jc-footer__newsletter {
+      grid-column: auto;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Footer",
+  "tag": null,
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "blurb",
+      "label": "Description",
+      "default": "Art made with pen, paint, Liberty fabric & stitching in West Kirby."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show newsletter signup",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "payment_icons",
+      "label": "Show payment icons",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Shop"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "default": "footer"
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "groups": ["footer"]
+  }
+}
+{% endschema %}
