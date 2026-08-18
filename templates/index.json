@@ -1,30 +1,13 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "hero": {
       "type": "hero",
-      "settings": {
-        "image": "shopify://shop_images/hero-studio.jpg",
-        "height": "large",
-        "heading": "Drawn. Painted. Stitched.",
-        "subheading": "Made by Jenny.",
-        "body": "<p>Original artwork, prints and lovely things created in my West Kirby studio.</p>",
-        "button_label": "Shop the artwork",
-        "button_link": "",
-        "button_2_label": "Visit Jenny & Co",
-        "button_2_link": ""
-      }
+      "settings": {}
+    },
+    "panels": {
+      "type": "collection-panels",
+      "settings": {}
     }
   },
-  "order": [
-    "hero"
-  ]
+  "order": ["hero", "panels"]
 }
