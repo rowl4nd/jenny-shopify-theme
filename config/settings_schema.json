@@ -1,10 +1,130 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Barebones Starter",
+    "theme_name": "Jenny & Co",
     "theme_version": "1.0.0",
-    "theme_author": "Custom",
-    "theme_documentation_url": "https://shopify.dev",
-    "theme_support_url": "https://shopify.dev"
+    "theme_author": "Jenny & Co",
+    "theme_documentation_url": "https://jennyandco.co.uk",
+    "theme_support_url": "https://jennyandco.co.uk"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "The Jenny & Co colours are built into the theme so the site always looks right. To change them, ask your developer."
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_green",
+        "label": "Logo — green (for cream backgrounds)"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_cream",
+        "label": "Logo — cream (for green backgrounds)"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "label": "Logo width",
+        "min": 80,
+        "max": 320,
+        "step": 10,
+        "unit": "px",
+        "default": 180
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "32 x 32px .png recommended."
+      }
+    ]
+  },
+  {
+    "name": "Announcement bar",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "announcement_enabled",
+        "label": "Show announcement bar",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "announcement_text",
+        "label": "Announcement text",
+        "default": "Made in my West Kirby studio · Free UK delivery over £50"
+      },
+      {
+        "type": "url",
+        "id": "announcement_link",
+        "label": "Announcement link",
+        "info": "Optional."
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram",
+        "info": "https://instagram.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook",
+        "info": "https://facebook.com/shopify"
+      }
+    ]
+  },
+  {
+    "name": "Studio",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Used on the footer and the Visit the Studio page."
+      },
+      {
+        "type": "text",
+        "id": "studio_address",
+        "label": "Address",
+        "default": "West Kirby, Wirral"
+      },
+      {
+        "type": "textarea",
+        "id": "studio_hours",
+        "label": "Opening hours",
+        "default": "Wednesday – Saturday, 10am – 4pm"
+      },
+      {
+        "type": "text",
+        "id": "studio_email",
+        "label": "Contact email",
+        "default": "jennydunlopartist@me.com"
+      }
+    ]
+  },
+  {
+    "name": "Products",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_sold_originals",
+        "label": "Keep sold originals visible",
+        "default": true,
+        "info": "Shows a SOLD badge instead of hiding the piece. Helps show that originals do sell."
+      },
+      {
+        "type": "text",
+        "id": "sold_original_message",
+        "label": "Message shown on sold originals",
+        "default": "Love this one? Prints are available."
+      }
+    ]
   }
 ]
