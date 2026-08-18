@@ -1,0 +1,87 @@
+{%- comment -%}
+  Renders a product card.
+
+  Accepts:
+  - product: {Object} Product Liquid object (required)
+  - lazy: {Boolean} Lazy-load the image. Default true.
+  - sizes: {String} Image sizes attribute.
+
+  Usage:
+  {% render 'product-card', product: product %}
+{%- endcomment -%}
+
+{%- liquid
+  assign lazy = lazy | default: true, allow_false: true
+  assign loading = 'lazy'
+  if lazy == false
+    assign loading = 'eager'
+  endif
+
+  assign sizes = sizes | default: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw'
+
+  assign is_original = false
+  if product.type == 'Original'
+    assign is_original = true
+  endif
+-%}
+
+<div class="jc-card">
+  <a href="{{ product.url }}" class="jc-card__link">
+    <div class="jc-card__media">
+      {%- if product.featured_media != blank -%}
+        {{
+          product.featured_media
+          | image_url: width: 1000
+          | image_tag:
+            loading: loading,
+            sizes: sizes,
+            widths: '250, 350, 500, 700, 1000',
+            class: 'jc-card__image',
+            alt: product.featured_media.alt | default: product.title
+        }}
+      {%- else -%}
+        <div class="jc-card__image jc-card__image--empty"></div>
+      {%- endif -%}
+
+      {%- if is_original -%}
+        <span class="jc-card__badge{% unless product.available %} jc-card__badge--sold{% endunless %}">
+          {%- if product.available -%}
+            {{ 'products.product.original_badge' | t }}
+          {%- else -%}
+            {{ 'products.product.sold_out' | t }}
+          {%- endif -%}
+        </span>
+      {%- elsif product.available == false -%}
+        <span class="jc-card__badge jc-card__badge--sold">
+          {{ 'products.product.sold_out' | t }}
+        </span>
+      {%- endif -%}
+    </div>
+
+    <div class="jc-card__text">
+      <h3 class="jc-card__title">{{ product.title }}</h3>
+
+      <p class="jc-card__price jc-price">
+        {%- if product.available -%}
+          {%- if product.price_varies -%}
+            {{ product.price_min | money }}
+            {%- if product.price_max > product.price_min %}&ndash;{{ product.price_max | money }}{% endif -%}
+          {%- else -%}
+            {{ product.price | money }}
+          {%- endif -%}
+        {%- else -%}
+          <span class="jc-card__unavailable">{{ 'products.product.sold_out' | t }}</span>
+        {%- endif -%}
+      </p>
+
+      {%- if is_original and product.available == false and settings.sold_original_message != blank -%}
+        <p class="jc-card__note">{{ settings.sold_original_message }}</p>
+      {%- endif -%}
+    </div>
+  </a>
+</div>
+
+{%- comment -%}
+  Styles live here rather than in a section stylesheet because this
+  snippet is rendered by several different sections.
+{%- endcomment -%}
