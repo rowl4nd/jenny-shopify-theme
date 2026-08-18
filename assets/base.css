@@ -1,0 +1,309 @@
+/* ==========================================================================
+   JENNY & CO — base.css
+   Brand tokens, font loading, reset, core typography.
+   Do not add page or section styles here — those belong in custom.css
+   or alongside their section.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Jenny's handwritten display font
+
+   IMPORTANT: this font contains only 94 glyphs and has NO £ character.
+   It must never be applied to prices, body copy, navigation, or any text
+   that comes from Shopify (product titles, customer input, cart contents).
+   Use it via the .jc-display class or on h1 only.
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Jenny Dunlop';
+  src: url('jenny-dunlop.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  /* Belt and braces: even if misapplied, the browser will fall back for any
+     character outside this range rather than rendering a blank box. */
+  unicode-range: U+0020-007E;
+}
+
+/* --------------------------------------------------------------------------
+   2. Brand tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Palette */
+  --jc-cream: #F7F1E8;
+  --jc-green: #234838;
+  --jc-pink: #D7A3A8;
+  --jc-pink-bright: #E7658D;
+  --jc-charcoal: #33322F;
+
+  /* Semantic roles — prefer these over raw palette values */
+  --jc-bg: var(--jc-cream);
+  --jc-text: var(--jc-charcoal);
+  --jc-heading: var(--jc-green);
+  --jc-accent: var(--jc-pink);
+  --jc-accent-loud: var(--jc-pink-bright);
+  --jc-border: rgba(51, 50, 47, 0.14);
+
+  /* Typography */
+  --jc-font-display: 'Jenny Dunlop', 'Georgia', serif;
+  --jc-font-heading: 'Georgia', 'Times New Roman', serif;
+  --jc-font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+
+  --jc-text-base: 1.0625rem;
+  --jc-leading: 1.65;
+  --jc-tracking-wide: 0.08em;
+
+  /* Spacing scale */
+  --jc-space-xs: 0.5rem;
+  --jc-space-sm: 1rem;
+  --jc-space-md: 2rem;
+  --jc-space-lg: 4rem;
+  --jc-space-xl: 6rem;
+
+  /* Layout */
+  --jc-page-width: 1400px;
+  --jc-gutter: 1.25rem;
+  --jc-measure: 62ch;
+
+  --jc-radius: 0;
+  --jc-transition: 200ms ease;
+}
+
+@media (min-width: 750px) {
+  :root {
+    --jc-gutter: 2.5rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Reset
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--jc-bg);
+  color: var(--jc-text);
+  font-family: var(--jc-font-body);
+  font-size: var(--jc-text-base);
+  line-height: var(--jc-leading);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+picture,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+/* --------------------------------------------------------------------------
+   4. Typography
+   -------------------------------------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 var(--jc-space-sm);
+  color: var(--jc-heading);
+  font-family: var(--jc-font-heading);
+  font-weight: 400;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+h1 {
+  font-family: var(--jc-font-display);
+  font-size: clamp(2.75rem, 7vw, 5rem);
+  line-height: 1.05;
+}
+
+h2 { font-size: clamp(1.75rem, 3.5vw, 2.75rem); }
+h3 { font-size: clamp(1.375rem, 2.5vw, 1.75rem); }
+h4 { font-size: 1.1875rem; }
+
+p {
+  margin: 0 0 var(--jc-space-sm);
+  max-width: var(--jc-measure);
+}
+
+a {
+  color: var(--jc-green);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: color var(--jc-transition);
+}
+
+a:hover {
+  color: var(--jc-accent-loud);
+}
+
+/* Opt-in handwritten display type.
+   Only ever use on static, author-written copy. */
+.jc-display {
+  font-family: var(--jc-font-display);
+  color: var(--jc-heading);
+}
+
+/* Small caps label — used for eyebrow text and section labels */
+.jc-label {
+  font-family: var(--jc-font-body);
+  font-size: 0.75rem;
+  letter-spacing: var(--jc-tracking-wide);
+  text-transform: uppercase;
+}
+
+/* Guard rail: prices and money must always use the body font,
+   whatever context they appear in. */
+.price,
+.money,
+[data-price],
+.jc-price {
+  font-family: var(--jc-font-body) !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   5. Layout helpers
+   -------------------------------------------------------------------------- */
+.jc-page {
+  width: 100%;
+  max-width: var(--jc-page-width);
+  margin-inline: auto;
+  padding-inline: var(--jc-gutter);
+}
+
+.jc-page--narrow {
+  max-width: 820px;
+}
+
+.jc-section {
+  padding-block: var(--jc-space-lg);
+}
+
+@media (min-width: 750px) {
+  .jc-section {
+    padding-block: var(--jc-space-xl);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Buttons
+   -------------------------------------------------------------------------- */
+.jc-button {
+  display: inline-block;
+  padding: 0.9rem 2rem;
+  background-color: var(--jc-green);
+  color: var(--jc-cream);
+  font-size: 0.8125rem;
+  letter-spacing: var(--jc-tracking-wide);
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--jc-green);
+  border-radius: var(--jc-radius);
+  transition: background-color var(--jc-transition), color var(--jc-transition);
+}
+
+.jc-button:hover {
+  background-color: transparent;
+  color: var(--jc-green);
+}
+
+.jc-button--outline {
+  background-color: transparent;
+  color: var(--jc-green);
+}
+
+.jc-button--outline:hover {
+  background-color: var(--jc-green);
+  color: var(--jc-cream);
+}
+
+.jc-button[disabled],
+.jc-button[aria-disabled='true'] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------
+   7. Accessibility
+   -------------------------------------------------------------------------- */
+.skip-to-content {
+  position: absolute;
+  left: -9999px;
+  z-index: 999;
+  padding: var(--jc-space-sm) var(--jc-space-md);
+  background-color: var(--jc-green);
+  color: var(--jc-cream);
+  text-decoration: none;
+}
+
+.skip-to-content:focus {
+  left: var(--jc-gutter);
+  top: var(--jc-gutter);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--jc-accent-loud);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
