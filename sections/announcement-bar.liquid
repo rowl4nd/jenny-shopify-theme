@@ -1,0 +1,71 @@
+{%- liquid
+  assign text = section.settings.text | default: settings.announcement_text
+  assign link = section.settings.link | default: settings.announcement_link
+-%}
+
+{%- if settings.announcement_enabled and text != blank -%}
+  <div class="jc-announcement">
+    <div class="jc-page">
+      {%- if link != blank -%}
+        <a href="{{ link }}" class="jc-announcement__text">{{ text }}</a>
+      {%- else -%}
+        <p class="jc-announcement__text">{{ text }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .jc-announcement {
+    background-color: var(--jc-pink);
+    color: var(--jc-charcoal);
+    text-align: center;
+  }
+
+  .jc-announcement__text {
+    display: block;
+    max-width: none;
+    margin: 0;
+    padding-block: 0.65rem;
+    font-size: 0.75rem;
+    letter-spacing: var(--jc-tracking-wide);
+    text-transform: uppercase;
+    color: inherit;
+  }
+
+  a.jc-announcement__text {
+    text-decoration: none;
+  }
+
+  a.jc-announcement__text:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    color: inherit;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Leave blank to use the announcement set in Theme settings."
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["header"]
+  }
+}
+{% endschema %}
