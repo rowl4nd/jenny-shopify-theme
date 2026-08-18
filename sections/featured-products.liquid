@@ -1,0 +1,141 @@
+{%- liquid
+  assign collection = collections[section.settings.collection]
+  assign limit = section.settings.products_to_show
+  assign columns = section.settings.columns
+-%}
+
+<div class="jc-featured jc-section">
+  <div class="jc-page">
+
+    <div class="jc-featured__head">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="jc-featured__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.show_view_all and collection != blank -%}
+        <a href="{{ collection.url }}" class="jc-featured__viewall">
+          {{ 'collections.general.view_all' | t }}
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- if collection.products.size > 0 -%}
+      <ul class="jc-featured__grid" style="--jc-featured-columns: {{ columns }};">
+        {%- for product in collection.products limit: limit -%}
+          <li class="jc-featured__item">
+            {% render 'product-card', product: product %}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <ul class="jc-featured__grid" style="--jc-featured-columns: {{ columns }};">
+        {%- for i in (1..limit) -%}
+          <li class="jc-featured__item">
+            <div class="jc-card">
+              <div class="jc-card__media">
+                <div class="jc-card__image jc-card__image--empty"></div>
+              </div>
+              <div class="jc-card__text">
+                <h3 class="jc-card__title">{{ 'onboarding.product_title' | t }}</h3>
+                <p class="jc-card__price jc-price">{{ 1900 | money }}</p>
+              </div>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .jc-featured__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--jc-space-sm);
+    margin-bottom: var(--jc-space-md);
+  }
+
+  .jc-featured__heading {
+    margin: 0;
+  }
+
+  .jc-featured__viewall {
+    font-size: 0.8125rem;
+    letter-spacing: var(--jc-tracking-wide);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--jc-green);
+    border-bottom: 1px solid var(--jc-accent);
+    padding-bottom: 2px;
+  }
+
+  .jc-featured__viewall:hover {
+    color: var(--jc-accent-loud);
+    border-bottom-color: var(--jc-accent-loud);
+  }
+
+  .jc-featured__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--jc-space-md) var(--jc-space-sm);
+    list-style: none;
+  }
+
+  @media (min-width: 750px) {
+    .jc-featured__grid {
+      grid-template-columns: repeat(var(--jc-featured-columns, 4), 1fr);
+      gap: var(--jc-space-lg) var(--jc-space-md);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Featured products",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "New in the studio"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns on desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View all' link",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured products"
+    }
+  ]
+}
+{% endschema %}
