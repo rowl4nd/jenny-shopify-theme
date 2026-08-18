@@ -1,0 +1,284 @@
+{%- liquid
+  assign image = section.settings.image
+-%}
+
+<div class="jc-hero jc-hero--{{ section.settings.height }}">
+  {%- if image != blank -%}
+    <div class="jc-hero__media">
+      {{
+        image
+        | image_url: width: 3000
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          sizes: '100vw',
+          widths: '600, 900, 1200, 1600, 2000, 2600, 3000',
+          class: 'jc-hero__image',
+          alt: image.alt | default: shop.name
+      }}
+    </div>
+  {%- else -%}
+    <div class="jc-hero__media jc-hero__media--empty">
+      <p class="jc-hero__placeholder">Add a studio photograph in the theme editor</p>
+    </div>
+  {%- endif -%}
+
+  <div class="jc-hero__scrim" aria-hidden="true"></div>
+
+  <div class="jc-hero__inner jc-page">
+    <div class="jc-hero__content">
+      {%- if section.settings.heading != blank -%}
+        <h1 class="jc-hero__heading">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+
+      {%- if section.settings.subheading != blank -%}
+        <p class="jc-hero__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.body != blank -%}
+        <div class="jc-hero__body">{{ section.settings.body }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank or section.settings.button_2_label != blank -%}
+        <div class="jc-hero__actions">
+          {%- if section.settings.button_label != blank -%}
+            <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="jc-button">
+              {{ section.settings.button_label }}
+            </a>
+          {%- endif -%}
+
+          {%- if section.settings.button_2_label != blank -%}
+            <a href="{{ section.settings.button_2_link | default: routes.root_url }}" class="jc-hero__link">
+              {{ section.settings.button_2_label }}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .jc-hero {
+    position: relative;
+    display: grid;
+    isolation: isolate;
+  }
+
+  .jc-hero__media,
+  .jc-hero__scrim,
+  .jc-hero__inner {
+    grid-area: 1 / 1;
+  }
+
+  .jc-hero__media {
+    overflow: hidden;
+  }
+
+  .jc-hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .jc-hero__media--empty {
+    display: grid;
+    place-items: center;
+    background-color: var(--jc-pink);
+  }
+
+  .jc-hero__placeholder {
+    margin: 0;
+    max-width: none;
+    padding: var(--jc-space-md);
+    color: var(--jc-green);
+    font-size: 0.875rem;
+    letter-spacing: var(--jc-tracking-wide);
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  /* Directional scrim: dark enough for text on the left,
+     clearing to nothing on the right so the studio keeps its colour. */
+  .jc-hero__scrim {
+    background: linear-gradient(
+      100deg,
+      rgba(35, 72, 56, 0.72) 0%,
+      rgba(35, 72, 56, 0.55) 30%,
+      rgba(35, 72, 56, 0.15) 58%,
+      rgba(35, 72, 56, 0) 78%
+    );
+  }
+
+  .jc-hero__inner {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-block: var(--jc-space-xl);
+    z-index: 1;
+  }
+
+  .jc-hero__content {
+    max-width: 34rem;
+  }
+
+  .jc-hero__heading {
+    margin: 0;
+    color: var(--jc-cream);
+    font-size: clamp(2.5rem, 6.5vw, 4.5rem);
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+
+  .jc-hero__subheading {
+    margin: 0.15em 0 0;
+    max-width: none;
+    color: var(--jc-pink);
+    font-family: var(--jc-font-heading);
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+    font-style: italic;
+    line-height: 1.15;
+  }
+
+  .jc-hero__body {
+    margin-top: var(--jc-space-sm);
+    color: var(--jc-cream);
+    font-size: 1.0625rem;
+  }
+
+  .jc-hero__body p {
+    margin: 0;
+    max-width: 32ch;
+  }
+
+  .jc-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--jc-space-sm) var(--jc-space-md);
+    margin-top: var(--jc-space-md);
+  }
+
+  .jc-hero__actions .jc-button {
+    background-color: var(--jc-cream);
+    border-color: var(--jc-cream);
+    color: var(--jc-green);
+  }
+
+  .jc-hero__actions .jc-button:hover {
+    background-color: transparent;
+    color: var(--jc-cream);
+  }
+
+  .jc-hero__link {
+    color: var(--jc-cream);
+    font-size: 0.8125rem;
+    letter-spacing: var(--jc-tracking-wide);
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(247, 241, 232, 0.5);
+    padding-bottom: 2px;
+    transition: border-color var(--jc-transition);
+  }
+
+  .jc-hero__link:hover {
+    color: var(--jc-cream);
+    border-bottom-color: var(--jc-cream);
+  }
+
+  /* Heights */
+  .jc-hero--medium .jc-hero__media { min-height: 62vh; }
+  .jc-hero--large .jc-hero__media { min-height: 78vh; }
+  .jc-hero--full .jc-hero__media { min-height: calc(100svh - 120px); }
+
+  @media (max-width: 749px) {
+    .jc-hero__scrim {
+      background: linear-gradient(
+        180deg,
+        rgba(35, 72, 56, 0.35) 0%,
+        rgba(35, 72, 56, 0.55) 45%,
+        rgba(35, 72, 56, 0.78) 100%
+      );
+    }
+
+    .jc-hero__inner {
+      align-items: flex-end;
+      padding-block: var(--jc-space-lg);
+    }
+
+    .jc-hero--medium .jc-hero__media { min-height: 70vh; }
+    .jc-hero--large .jc-hero__media { min-height: 80vh; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Landscape, at least 2000px wide."
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Height",
+      "options": [
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "full", "label": "Full screen" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Drawn. Painted. Stitched."
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Made by Jenny."
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Text",
+      "default": "<p>Original artwork, prints and lovely things created in my West Kirby studio.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop the artwork"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "button_2_label",
+      "label": "Secondary link label",
+      "default": "Visit Jenny & Co"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Secondary link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero"
+    }
+  ]
+}
+{% endschema %}
