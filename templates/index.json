@@ -25,6 +25,19 @@
     },
     "panels": {
       "type": "collection-panels",
+      "blocks": {
+        "panel_NKcKaj": {
+          "type": "panel",
+          "settings": {
+            "collection": "bestsellers",
+            "heading": "",
+            "caption": ""
+          }
+        }
+      },
+      "block_order": [
+        "panel_NKcKaj"
+      ],
       "settings": {
         "heading": ""
       }
