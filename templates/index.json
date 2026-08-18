@@ -47,22 +47,4 @@
           "settings": {
             "collection": "bestsellers",
             "heading": "",
-            "caption": "The ones people keep coming back for"
-          }
-        }
-      },
-      "block_order": [
-        "panel_bUiDHY",
-        "panel_cYfaBr",
-        "panel_NKcKaj"
-      ],
-      "settings": {
-        "heading": ""
-      }
-    }
-  },
-  "order": [
-    "hero",
-    "panels"
-  ]
-}
+            "caption": "The ones people keep coming
