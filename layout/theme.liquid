@@ -22,8 +22,8 @@
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
 
-    {# Preload Jenny's handwritten display font #}
-    <link
+    {%- comment -%} Preload Jenny's handwritten display font {%- endcomment -%}    
+      <link
       rel="preload"
       as="font"
       type="font/woff2"
