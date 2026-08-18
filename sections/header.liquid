@@ -1,0 +1,386 @@
+{%- liquid
+  assign menu = linklists[section.settings.menu]
+  assign logo = settings.logo_green
+-%}
+
+<header class="jc-header" data-jc-header>
+  <div class="jc-header__inner jc-page">
+
+    <button
+      class="jc-header__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="jc-drawer"
+      data-jc-drawer-open>
+      <span class="visually-hidden">{{ 'general.accessibility.menu' | t }}</span>
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+        <path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <div class="jc-header__brand">
+      {%- if request.page_type == 'index' -%}
+        <h1 class="jc-header__logo">
+      {%- else -%}
+        <div class="jc-header__logo">
+      {%- endif -%}
+        <a href="{{ routes.root_url }}">
+          {%- if logo != blank -%}
+            {{
+              logo
+              | image_url: width: 600
+              | image_tag:
+                loading: 'eager',
+                width: settings.logo_width,
+                alt: shop.name
+            }}
+          {%- else -%}
+            <span class="jc-header__wordmark">{{ shop.name }}</span>
+          {%- endif -%}
+        </a>
+      {%- if request.page_type == 'index' -%}
+        </h1>
+      {%- else -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <nav class="jc-header__nav" aria-label="Primary">
+      <ul class="jc-header__list">
+        {%- for link in menu.links -%}
+          <li>
+            <a
+              href="{{ link.url }}"
+              class="jc-header__link{% if link.active or link.child_active %} is-active{% endif %}"
+              {% if link.active %}aria-current="page"{% endif %}>
+              {{ link.title }}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <div class="jc-header__utils">
+      <a href="{{ routes.search_url }}" class="jc-header__util">
+        <span class="visually-hidden">{{ 'general.search.title' | t }}</span>
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="M20 20l-3.5-3.5" stroke-linecap="round"/>
+        </svg>
+      </a>
+
+      {%- if shop.customer_accounts_enabled -%}
+        <a href="{{ routes.account_url }}" class="jc-header__util jc-header__util--account">
+          <span class="visually-hidden">{{ 'customer.account.title' | t }}</span>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4.5 20a7.5 7.5 0 0 1 15 0" stroke-linecap="round"/>
+          </svg>
+        </a>
+      {%- endif -%}
+
+      <a href="{{ routes.cart_url }}" class="jc-header__util">
+        <span class="visually-hidden">{{ 'cart.general.title' | t }}</span>
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+          <path d="M5 7h14l-1.2 12.2a1.5 1.5 0 0 1-1.5 1.3H7.7a1.5 1.5 0 0 1-1.5-1.3z"/>
+          <path d="M9 7a3 3 0 0 1 6 0" stroke-linecap="round"/>
+        </svg>
+        {%- if cart.item_count > 0 -%}
+          <span class="jc-header__count" aria-hidden="true">{{ cart.item_count }}</span>
+        {%- endif -%}
+      </a>
+    </div>
+  </div>
+
+  {%- comment -%} Mobile drawer {%- endcomment -%}
+  <div class="jc-drawer" id="jc-drawer" data-jc-drawer hidden>
+    <div class="jc-drawer__overlay" data-jc-drawer-close></div>
+
+    <div class="jc-drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
+      <button class="jc-drawer__close" type="button" data-jc-drawer-close>
+        <span class="visually-hidden">{{ 'general.accessibility.close' | t }}</span>
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+          <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <nav aria-label="Mobile">
+        <ul class="jc-drawer__list">
+          {%- for link in menu.links -%}
+            <li>
+              <a href="{{ link.url }}" class="jc-drawer__link">{{ link.title }}</a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+
+      {%- if settings.social_instagram_link != blank or settings.social_facebook_link != blank -%}
+        <div class="jc-drawer__social">
+          {%- if settings.social_instagram_link != blank -%}
+            <a href="{{ settings.social_instagram_link }}">{{ 'general.social.instagram' | t }}</a>
+          {%- endif -%}
+          {%- if settings.social_facebook_link != blank -%}
+            <a href="{{ settings.social_facebook_link }}">{{ 'general.social.facebook' | t }}</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</header>
+
+{% stylesheet %}
+  .jc-header {
+    position: relative;
+    z-index: 10;
+    background-color: var(--jc-bg);
+    border-bottom: 1px solid var(--jc-border);
+  }
+
+  .jc-header__inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--jc-space-sm);
+    padding-block: var(--jc-space-sm);
+  }
+
+  .jc-header__brand {
+    justify-self: center;
+  }
+
+  .jc-header__logo {
+    margin: 0;
+    font-size: inherit;
+    line-height: 0;
+  }
+
+  .jc-header__logo a {
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  .jc-header__wordmark {
+    font-family: var(--jc-font-heading);
+    font-size: 1.5rem;
+    letter-spacing: var(--jc-tracking-wide);
+    text-transform: uppercase;
+    color: var(--jc-green);
+    line-height: 1.2;
+  }
+
+  .jc-header__nav {
+    display: none;
+  }
+
+  .jc-header__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  .jc-header__link {
+    font-size: 0.8125rem;
+    letter-spacing: var(--jc-tracking-wide);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--jc-green);
+    padding-block: 0.25rem;
+    border-bottom: 1px solid transparent;
+  }
+
+  .jc-header__link:hover,
+  .jc-header__link.is-active {
+    border-bottom-color: var(--jc-accent);
+    color: var(--jc-green);
+  }
+
+  .jc-header__utils {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    justify-self: end;
+  }
+
+  .jc-header__util {
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: var(--jc-green);
+  }
+
+  .jc-header__util--account {
+    display: none;
+  }
+
+  .jc-header__count {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    min-width: 17px;
+    height: 17px;
+    padding-inline: 4px;
+    border-radius: 999px;
+    background-color: var(--jc-accent-loud);
+    color: #fff;
+    font-size: 0.6875rem;
+    line-height: 17px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .jc-header__toggle {
+    display: flex;
+    align-items: center;
+    color: var(--jc-green);
+  }
+
+  /* Drawer */
+  .jc-drawer[hidden] { display: none; }
+
+  .jc-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+  }
+
+  .jc-drawer__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(51, 50, 47, 0.4);
+  }
+
+  .jc-drawer__panel {
+    position: relative;
+    height: 100%;
+    width: min(88vw, 380px);
+    padding: var(--jc-space-md) var(--jc-space-md) var(--jc-space-lg);
+    background-color: var(--jc-cream);
+    overflow-y: auto;
+  }
+
+  .jc-drawer__close {
+    position: absolute;
+    top: var(--jc-space-sm);
+    right: var(--jc-space-sm);
+    color: var(--jc-green);
+  }
+
+  .jc-drawer__list {
+    margin-top: var(--jc-space-lg);
+    list-style: none;
+  }
+
+  .jc-drawer__link {
+    display: block;
+    padding-block: 0.7rem;
+    border-bottom: 1px solid var(--jc-border);
+    font-size: 1.0625rem;
+    text-decoration: none;
+    color: var(--jc-green);
+  }
+
+  .jc-drawer__social {
+    display: flex;
+    gap: var(--jc-space-sm);
+    margin-top: var(--jc-space-md);
+    font-size: 0.8125rem;
+    letter-spacing: var(--jc-tracking-wide);
+    text-transform: uppercase;
+  }
+
+  @media (min-width: 990px) {
+    .jc-header__inner {
+      grid-template-columns: 1fr auto 1fr;
+      padding-block: var(--jc-space-md);
+    }
+
+    .jc-header__toggle { display: none; }
+    .jc-header__nav { display: block; grid-column: 1 / -1; }
+    .jc-header__util--account { display: flex; }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class JCDrawer {
+    constructor(root) {
+      this.root = root;
+      this.drawer = root.querySelector('[data-jc-drawer]');
+      this.toggle = root.querySelector('[data-jc-drawer-open]');
+      if (!this.drawer || !this.toggle) return;
+
+      this.panel = this.drawer.querySelector('.jc-drawer__panel');
+      this.lastFocused = null;
+
+      this.toggle.addEventListener('click', () => this.open());
+
+      this.drawer.querySelectorAll('[data-jc-drawer-close]').forEach((el) => {
+        el.addEventListener('click', () => this.close());
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (this.drawer.hidden) return;
+        if (e.key === 'Escape') this.close();
+        if (e.key === 'Tab') this.trapFocus(e);
+      });
+    }
+
+    open() {
+      this.lastFocused = document.activeElement;
+      this.drawer.hidden = false;
+      this.toggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      this.focusable()[0]?.focus();
+    }
+
+    close() {
+      this.drawer.hidden = true;
+      this.toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      this.lastFocused?.focus();
+    }
+
+    focusable() {
+      return Array.from(
+        this.panel.querySelectorAll('a[href], button:not([disabled])')
+      ).filter((el) => el.offsetParent !== null);
+    }
+
+    trapFocus(e) {
+      const items = this.focusable();
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }
+
+  document.querySelectorAll('[data-jc-header]').forEach((el) => new JCDrawer(el));
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "section",
+  "class": "jc-header-section",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["header"]
+  }
+}
+{% endschema %}
