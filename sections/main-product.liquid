@@ -1,0 +1,417 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+
+  assign is_original = false
+  if product.type == 'Original'
+    assign is_original = true
+  endif
+-%}
+
+<div class="jc-product jc-section">
+  <div class="jc-page">
+    <div class="jc-product__layout">
+
+      {%- comment -%} Media {%- endcomment -%}
+      <div class="jc-product__media">
+        {%- if product.media.size > 0 -%}
+          <div class="jc-product__gallery">
+            {%- for media in product.media -%}
+              <div class="jc-product__media-item{% if forloop.first %} is-primary{% endif %}">
+                {{
+                  media
+                  | image_url: width: 1800
+                  | image_tag:
+                    loading: forloop.first | default: false,
+                    sizes: '(min-width: 990px) 55vw, 100vw',
+                    widths: '500, 700, 900, 1200, 1500, 1800',
+                    class: 'jc-product__image',
+                    alt: media.alt | default: product.title
+                }}
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- else -%}
+          <div class="jc-product__media-item">
+            <div class="jc-product__image jc-product__image--empty"></div>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Details {%- endcomment -%}
+      <div class="jc-product__details">
+        <div class="jc-product__sticky">
+
+          {%- if is_original -%}
+            <p class="jc-product__flag{% unless product.available %} jc-product__flag--sold{% endunless %}">
+              {%- if product.available -%}
+                {{ 'products.product.original_badge' | t }}
+              {%- else -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- endif -%}
+            </p>
+          {%- endif -%}
+
+          <h1 class="jc-product__title">{{ product.title }}</h1>
+
+          {%- if section.settings.show_type and product.type != blank -%}
+            <p class="jc-product__type">{{ product.type }}</p>
+          {%- endif -%}
+
+          <p class="jc-product__price jc-price">
+            {%- if product.available -%}
+              {{ current_variant.price | money }}
+              {%- if current_variant.compare_at_price > current_variant.price -%}
+                <s class="jc-product__was">{{ current_variant.compare_at_price | money }}</s>
+              {%- endif -%}
+            {%- else -%}
+              <span class="jc-product__unavailable">{{ 'products.product.sold_out' | t }}</span>
+            {%- endif -%}
+          </p>
+
+          {%- if is_original and product.available == false and settings.sold_original_message != blank -%}
+            <p class="jc-product__sold-note">{{ settings.sold_original_message }}</p>
+          {%- endif -%}
+
+          {%- form 'product', product, class: 'jc-product__form', id: 'ProductForm' -%}
+            <input
+              type="hidden"
+              name="id"
+              value="{{ current_variant.id }}"
+              data-jc-variant-id>
+
+            {%- unless product.has_only_default_variant -%}
+              <div class="jc-product__options" data-jc-options>
+                {%- for option in product.options_with_values -%}
+                  <fieldset class="jc-product__option">
+                    <legend class="jc-product__option-label">{{ option.name }}</legend>
+
+                    <div class="jc-product__swatches">
+                      {%- for value in option.values -%}
+                        {%- liquid
+                          assign input_id = 'opt-' | append: forloop.parentloop.index | append: '-' | append: forloop.index
+                          assign checked = false
+                          if option.selected_value == value
+                            assign checked = true
+                          endif
+                        -%}
+                        <input
+                          type="radio"
+                          class="jc-product__swatch-input visually-hidden"
+                          id="{{ input_id }}"
+                          name="option{{ option.position }}"
+                          value="{{ value | escape }}"
+                          data-jc-option-position="{{ option.position }}"
+                          {% if checked %}checked{% endif %}>
+                        <label for="{{ input_id }}" class="jc-product__swatch">{{ value }}</label>
+                      {%- endfor -%}
+                    </div>
+                  </fieldset>
+                {%- endfor -%}
+              </div>
+            {%- endunless -%}
+
+            <button
+              type="submit"
+              name="add"
+              class="jc-button jc-product__submit"
+              data-jc-submit
+              {% unless product.available %}disabled{% endunless %}>
+              {%- if product.available -%}
+                {{ 'products.product.add_to_cart' | t }}
+              {%- else -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- endif -%}
+            </button>
+          {%- endform -%}
+
+          {%- if product.description != blank -%}
+            <div class="jc-product__block">
+              <h2 class="jc-product__block-title">{{ 'products.product.about_this_piece' | t }}</h2>
+              <div class="rte">{{ product.description }}</div>
+            </div>
+          {%- endif -%}
+
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'text' and block.settings.content != blank -%}
+              <div class="jc-product__block" {{ block.shopify_attributes }}>
+                {%- if block.settings.heading != blank -%}
+                  <h2 class="jc-product__block-title">{{ block.settings.heading }}</h2>
+                {%- endif -%}
+                <div class="rte">{{ block.settings.content }}</div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+
+          <script type="application/json" data-jc-variants>
+            {{ product.variants | json }}
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .jc-product__layout {
+    display: grid;
+    gap: var(--jc-space-md);
+  }
+
+  .jc-product__gallery {
+    display: grid;
+    gap: var(--jc-space-xs);
+  }
+
+  .jc-product__image {
+    width: 100%;
+    height: auto;
+    background-color: rgba(215, 163, 168, 0.18);
+  }
+
+  .jc-product__image--empty {
+    aspect-ratio: 1 / 1;
+    display: block;
+  }
+
+  .jc-product__flag {
+    margin: 0 0 var(--jc-space-xs);
+    max-width: none;
+    font-size: 0.6875rem;
+    letter-spacing: var(--jc-tracking-wide);
+    text-transform: uppercase;
+    color: var(--jc-accent-loud);
+  }
+
+  .jc-product__flag--sold {
+    color: var(--jc-green);
+  }
+
+  .jc-product__title {
+    margin: 0 0 0.25rem;
+    font-family: var(--jc-font-heading);
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    line-height: 1.15;
+  }
+
+  .jc-product__type {
+    margin: 0 0 var(--jc-space-sm);
+    max-width: none;
+    font-size: 0.8125rem;
+    letter-spacing: var(--jc-tracking-wide);
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .jc-product__price {
+    margin: 0 0 var(--jc-space-md);
+    max-width: none;
+    font-size: 1.375rem;
+    color: var(--jc-charcoal);
+  }
+
+  .jc-product__was {
+    margin-left: 0.5rem;
+    opacity: 0.55;
+    font-size: 1rem;
+  }
+
+  .jc-product__unavailable {
+    opacity: 0.65;
+  }
+
+  .jc-product__sold-note {
+    margin: -1rem 0 var(--jc-space-md);
+    max-width: none;
+    font-style: italic;
+    color: var(--jc-accent-loud);
+  }
+
+  .jc-product__option {
+    margin: 0 0 var(--jc-space-sm);
+    padding: 0;
+    border: none;
+  }
+
+  .jc-product__option-label {
+    padding: 0;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: var(--jc-tracking-wide);
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+
+  .jc-product__swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .jc-product__swatch {
+    display: inline-block;
+    padding: 0.55rem 1.1rem;
+    border: 1px solid var(--jc-border);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: border-color var(--jc-transition), background-color var(--jc-transition);
+  }
+
+  .jc-product__swatch:hover {
+    border-color: var(--jc-green);
+  }
+
+  .jc-product__swatch-input:checked + .jc-product__swatch {
+    background-color: var(--jc-green);
+    border-color: var(--jc-green);
+    color: var(--jc-cream);
+  }
+
+  .jc-product__swatch-input:focus-visible + .jc-product__swatch {
+    outline: 2px solid var(--jc-accent-loud);
+    outline-offset: 2px;
+  }
+
+  .jc-product__submit {
+    width: 100%;
+    margin-top: var(--jc-space-sm);
+  }
+
+  .jc-product__block {
+    margin-top: var(--jc-space-md);
+    padding-top: var(--jc-space-md);
+    border-top: 1px solid var(--jc-border);
+  }
+
+  .jc-product__block-title {
+    margin-bottom: 0.5rem;
+    font-family: var(--jc-font-body);
+    font-size: 0.75rem;
+    letter-spacing: var(--jc-tracking-wide);
+    text-transform: uppercase;
+    color: var(--jc-green);
+  }
+
+  .jc-product__block .rte p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (min-width: 990px) {
+    .jc-product__layout {
+      grid-template-columns: 1.35fr 1fr;
+      gap: var(--jc-space-lg);
+      align-items: start;
+    }
+
+    .jc-product__sticky {
+      position: sticky;
+      top: var(--jc-space-md);
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class JCProductForm {
+    constructor(root) {
+      this.root = root;
+      this.data = root.querySelector('[data-jc-variants]');
+      this.idInput = root.querySelector('[data-jc-variant-id]');
+      this.submit = root.querySelector('[data-jc-submit]');
+      this.priceEl = root.querySelector('.jc-product__price');
+      if (!this.data || !this.idInput) return;
+
+      try {
+        this.variants = JSON.parse(this.data.textContent);
+      } catch (e) {
+        return;
+      }
+
+      this.inputs = Array.from(root.querySelectorAll('[data-jc-option-position]'));
+      this.inputs.forEach((input) => {
+        input.addEventListener('change', () => this.update());
+      });
+    }
+
+    selected() {
+      const values = [];
+      this.inputs.forEach((input) => {
+        if (input.checked) {
+          values[Number(input.dataset.jcOptionPosition) - 1] = input.value;
+        }
+      });
+      return values;
+    }
+
+    update() {
+      const chosen = this.selected();
+      const match = this.variants.find((v) =>
+        v.options.every((opt, i) => opt === chosen[i])
+      );
+
+      if (!match) {
+        this.setUnavailable();
+        return;
+      }
+
+      this.idInput.value = match.id;
+
+      const url = new URL(window.location);
+      url.searchParams.set('variant', match.id);
+      window.history.replaceState({}, '', url);
+
+      if (this.priceEl && match.price != null) {
+        this.priceEl.textContent = this.money(match.price);
+      }
+
+      this.submit.disabled = !match.available;
+      this.submit.textContent = match.available
+        ? this.submit.dataset.addLabel || 'Add to basket'
+        : 'Sold';
+    }
+
+    setUnavailable() {
+      this.submit.disabled = true;
+      this.submit.textContent = 'Unavailable';
+    }
+
+    money(cents) {
+      return '£' + (cents / 100).toFixed(2);
+    }
+  }
+
+  document.querySelectorAll('.jc-product').forEach((el) => new JCProductForm(el));
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Product information",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_type",
+      "label": "Show product type",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text block",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "The details"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
