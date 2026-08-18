@@ -1,0 +1,28 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "details": {
+          "type": "text",
+          "settings": {
+            "heading": "The details",
+            "content": "<p>Printed on heavyweight archival matte paper.</p><p>Designed from my original pen, watercolour, Liberty fabric and stitched artwork.</p><p>Made in West Kirby.</p>"
+          }
+        },
+        "delivery": {
+          "type": "text",
+          "settings": {
+            "heading": "Delivery",
+            "content": "<p>UK delivery within 3–5 working days.</p>"
+          }
+        }
+      },
+      "block_order": ["details", "delivery"],
+      "settings": {
+        "show_type": true
+      }
+    }
+  },
+  "order": ["main"]
+}
