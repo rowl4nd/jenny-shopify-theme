@@ -26,6 +26,14 @@
     "panels": {
       "type": "collection-panels",
       "blocks": {
+        "panel_bUiDHY": {
+          "type": "panel",
+          "settings": {
+            "collection": "pet-portraits",
+            "heading": "",
+            "caption": ""
+          }
+        },
         "panel_cYfaBr": {
           "type": "panel",
           "settings": {
@@ -44,6 +52,7 @@
         }
       },
       "block_order": [
+        "panel_bUiDHY",
         "panel_cYfaBr",
         "panel_NKcKaj"
       ],
