@@ -9,18 +9,11 @@
           "type": "menu",
           "settings": {
             "heading": "Shop",
-            "menu": "footer"
-          }
-        },
-        "menu_help": {
-          "type": "menu",
-          "settings": {
-            "heading": "Help",
-            "menu": "footer"
+            "menu": "main-menu"
           }
         }
       },
-      "block_order": ["menu_shop", "menu_help"],
+      "block_order": ["menu_shop"],
       "settings": {
         "blurb": "Art made with pen, paint, Liberty fabric & stitching in West Kirby.",
         "show_newsletter": true,
