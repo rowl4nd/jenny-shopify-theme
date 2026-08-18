@@ -101,11 +101,22 @@
         "link_label": "More about Jenny",
         "link_url": ""
       }
+    },
+    "featured": {
+      "type": "featured-products",
+      "settings": {
+        "heading": "New in the studio",
+        "collection": "new-in",
+        "products_to_show": 4,
+        "columns": 4,
+        "show_view_all": true
+      }
     }
   },
   "order": [
     "hero",
     "panels",
-    "look_closely"
+    "look_closely",
+    "featured"
   ]
 }
