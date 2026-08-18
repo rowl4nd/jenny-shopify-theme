@@ -26,6 +26,14 @@
     "panels": {
       "type": "collection-panels",
       "blocks": {
+        "panel_cYfaBr": {
+          "type": "panel",
+          "settings": {
+            "collection": "new-in",
+            "heading": "",
+            "caption": ""
+          }
+        },
         "panel_NKcKaj": {
           "type": "panel",
           "settings": {
@@ -36,6 +44,7 @@
         }
       },
       "block_order": [
+        "panel_cYfaBr",
         "panel_NKcKaj"
       ],
       "settings": {
