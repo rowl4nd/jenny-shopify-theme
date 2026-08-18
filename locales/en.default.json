@@ -1,0 +1,193 @@
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Skip to content",
+      "close": "Close",
+      "menu": "Menu",
+      "previous": "Previous",
+      "next": "Next",
+      "loading": "Loading"
+    },
+    "meta": {
+      "tags": "Tagged \"{{ tags }}\"",
+      "page": "Page {{ page }}"
+    },
+    "search": {
+      "title": "Search",
+      "placeholder": "Search for artwork...",
+      "submit": "Search",
+      "results_with_count": {
+        "one": "{{ count }} result",
+        "other": "{{ count }} results"
+      },
+      "no_results": "Nothing found for \"{{ terms }}\". Try another search.",
+      "reset": "Clear search"
+    },
+    "pagination": {
+      "label": "Pagination",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {{ number }}"
+    },
+    "newsletter": {
+      "heading": "A little note from the studio",
+      "body": "New artwork, studio news and the occasional lovely thing.",
+      "label": "Email address",
+      "submit": "Join the list",
+      "success": "Thank you — you're on the list."
+    },
+    "social": {
+      "instagram": "Instagram",
+      "facebook": "Facebook"
+    },
+    "continue_shopping": "Continue shopping",
+    "back": "Back"
+  },
+
+  "products": {
+    "product": {
+      "add_to_cart": "Add to basket",
+      "sold_out": "Sold",
+      "unavailable": "Unavailable",
+      "on_sale": "Sale",
+      "quantity": "Quantity",
+      "price": "Price",
+      "regular_price": "Regular price",
+      "sale_price": "Sale price",
+      "vendor": "By {{ vendor }}",
+      "original_badge": "Original artwork — one only",
+      "about_this_piece": "About this piece",
+      "the_details": "The details",
+      "delivery": "Delivery",
+      "you_might_also_like": "You might also like",
+      "view_full_details": "View full details",
+      "media": {
+        "gallery_viewer": "Gallery viewer",
+        "image_available": "Image {{ index }} is now available in gallery view"
+      }
+    },
+    "facets": {
+      "filter_and_sort": "Filter and sort",
+      "filter_by": "Filter",
+      "sort_by": "Sort by",
+      "clear": "Clear",
+      "clear_all": "Clear all",
+      "apply": "Apply",
+      "product_count": {
+        "one": "{{ count }} piece",
+        "other": "{{ count }} pieces"
+      }
+    }
+  },
+
+  "collections": {
+    "general": {
+      "no_matches": "Nothing here just yet — please check back soon.",
+      "view_all": "View all",
+      "items_with_count": {
+        "one": "{{ count }} piece",
+        "other": "{{ count }} pieces"
+      }
+    }
+  },
+
+  "cart": {
+    "general": {
+      "title": "Your basket",
+      "empty": "Your basket is empty.",
+      "subtotal": "Subtotal",
+      "taxes_and_shipping_at_checkout": "Taxes and delivery calculated at checkout",
+      "checkout": "Checkout",
+      "update": "Update",
+      "remove": "Remove",
+      "note": "Order note",
+      "item_count": {
+        "one": "{{ count }} item",
+        "other": "{{ count }} items"
+      }
+    }
+  },
+
+  "customer": {
+    "account": {
+      "title": "Account",
+      "details": "Account details",
+      "view_addresses": "View addresses",
+      "return": "Return to account details"
+    },
+    "login": {
+      "title": "Sign in",
+      "email": "Email",
+      "password": "Password",
+      "forgot_password": "Forgot your password?",
+      "submit": "Sign in",
+      "create_account": "Create account",
+      "wholesale_signin": "Wholesale sign in"
+    },
+    "register": {
+      "title": "Create account",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Create"
+    },
+    "orders": {
+      "title": "Order history",
+      "order_number": "Order {{ number }}",
+      "date": "Date",
+      "payment_status": "Payment status",
+      "fulfillment_status": "Fulfilment status",
+      "total": "Total",
+      "none": "You haven't placed any orders yet."
+    }
+  },
+
+  "contact": {
+    "form": {
+      "title": "Get in touch",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "message": "Message",
+      "send": "Send",
+      "success": "Thanks — I'll be in touch soon.",
+      "enquire_portrait": "Enquire about a portrait"
+    }
+  },
+
+  "blogs": {
+    "article": {
+      "read_more": "Read more",
+      "posted_on": "Posted on {{ date }}",
+      "back_to_blog": "Back to {{ title }}"
+    }
+  },
+
+  "onboarding": {
+    "product_title": "Example artwork",
+    "collection_title": "Example collection"
+  },
+
+  "gift_cards": {
+    "issued": {
+      "title": "Here's your gift card",
+      "subtext": "Your gift card",
+      "expires_on": "Expires on {{ expires_on }}",
+      "copy_code": "Copy code",
+      "shop_link": "Start shopping"
+    }
+  },
+
+  "shopify": {
+    "links": {
+      "powered_by_shopify": ""
+    }
+  },
+
+  "404": {
+    "title": "Page not found",
+    "body": "The page you were looking for doesn't exist — but there's plenty else to see.",
+    "link": "Shop the artwork"
+  }
+}
