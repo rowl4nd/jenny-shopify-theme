@@ -24,19 +24,9 @@
       {%- else -%}
         <div class="jc-header__logo">
       {%- endif -%}
-        <a href="{{ routes.root_url }}">
-          {%- if logo != blank -%}
-            {{
-              logo
-              | image_url: width: 600
-              | image_tag:
-                loading: 'eager',
-                width: settings.logo_width,
-                alt: shop.name
-            }}
-          {%- else -%}
-            <span class="jc-header__wordmark">{{ shop.name }}</span>
-          {%- endif -%}
+        <a href="{{ routes.root_url }}" class="jc-header__wordmark">
+          <span aria-hidden="true">Jenny &amp; Co</span>
+          <span class="visually-hidden">Jenny and Co</span>
         </a>
       {%- if request.page_type == 'index' -%}
         </h1>
