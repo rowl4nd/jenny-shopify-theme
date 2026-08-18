@@ -1,0 +1,215 @@
+{%- liquid
+  assign columns = section.blocks.size
+  if columns > 3
+    assign columns = 3
+  endif
+-%}
+
+<div class="jc-panels jc-section">
+  <div class="jc-page">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="jc-panels__title">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <ul class="jc-panels__grid" style="--jc-panel-columns: {{ columns }};">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign collection = collections[block.settings.collection]
+          assign image = block.settings.image | default: collection.featured_image
+          assign heading = block.settings.heading | default: collection.title
+          assign url = collection.url | default: routes.all_products_collection_url
+        -%}
+
+        <li class="jc-panel" {{ block.shopify_attributes }}>
+          <a href="{{ url }}" class="jc-panel__link">
+            <div class="jc-panel__media">
+              {%- if image != blank -%}
+                {{
+                  image
+                  | image_url: width: 1200
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '(min-width: 990px) 33vw, 100vw',
+                    widths: '400, 600, 800, 1000, 1200',
+                    class: 'jc-panel__image',
+                    alt: heading
+                }}
+              {%- else -%}
+                <div class="jc-panel__image jc-panel__image--empty"></div>
+              {%- endif -%}
+            </div>
+
+            <div class="jc-panel__text">
+              <h3 class="jc-panel__heading">{{ heading }}</h3>
+              {%- if block.settings.caption != blank -%}
+                <p class="jc-panel__caption">{{ block.settings.caption }}</p>
+              {%- endif -%}
+            </div>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% stylesheet %}
+  .jc-panels__title {
+    margin-bottom: var(--jc-space-md);
+    text-align: center;
+  }
+
+  .jc-panels__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--jc-space-md);
+    list-style: none;
+  }
+
+  .jc-panel__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .jc-panel__media {
+    overflow: hidden;
+    background-color: var(--jc-pink);
+  }
+
+  .jc-panel__image {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    transition: transform 600ms ease;
+  }
+
+  .jc-panel__image--empty {
+    display: block;
+    background-color: var(--jc-pink);
+  }
+
+  .jc-panel__link:hover .jc-panel__image {
+    transform: scale(1.04);
+  }
+
+  .jc-panel__text {
+    padding-top: var(--jc-space-sm);
+  }
+
+  .jc-panel__heading {
+    margin: 0 0 0.15rem;
+    font-family: var(--jc-font-body);
+    font-size: 0.875rem;
+    letter-spacing: var(--jc-tracking-wide);
+    text-transform: uppercase;
+    color: var(--jc-green);
+  }
+
+  .jc-panel__caption {
+    margin: 0;
+    max-width: none;
+    font-size: 0.9375rem;
+    color: var(--jc-charcoal);
+    opacity: 0.75;
+  }
+
+  .jc-panel__link:hover .jc-panel__heading {
+    color: var(--jc-accent-loud);
+  }
+
+  @media (min-width: 750px) {
+    .jc-panels__grid {
+      grid-template-columns: repeat(var(--jc-panel-columns, 3), 1fr);
+      gap: var(--jc-space-sm);
+    }
+  }
+
+  @media (min-width: 990px) {
+    .jc-panels__grid {
+      gap: var(--jc-space-md);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .jc-panel__image {
+      transition: none;
+    }
+
+    .jc-panel__link:hover .jc-panel__image {
+      transform: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Collection panels",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "panel",
+      "name": "Panel",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Optional. Uses the collection image if left blank."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "info": "Optional. Uses the collection name if left blank."
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection panels",
+      "blocks": [
+        {
+          "type": "panel",
+          "settings": {
+            "heading": "New in",
+            "caption": "Latest originals & prints"
+          }
+        },
+        {
+          "type": "panel",
+          "settings": {
+            "heading": "Bestsellers",
+            "caption": "The ones people keep coming back for"
+          }
+        },
+        {
+          "type": "panel",
+          "settings": {
+            "heading": "Pet portraits",
+            "caption": "Something made especially for you"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
